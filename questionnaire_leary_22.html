@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Questionnaire de Leary</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        h2 {
+            color: #333;
+        }
+        form {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: white;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        div {
+            margin-bottom: 15px;
+        }
+        button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+            margin-right: 10px;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        #result {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        #result p {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        canvas {
+            margin-top: 30px;
+            border: 1px solid #ddd;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+</head>
+<body>
+    <h2>Questionnaire de Leary</h2>
+    <form id="learyForm">
+        <!-- Insertion des 23 questions -->
+        <div>
+            <p>1. A) Qui dirige et influence<br>B) Compréhensif et de bon conseil</p>
+            <input type="radio" name="q1" value="Dominant-Coopératif"> A
+            <input type="radio" name="q1" value="Responsable"> B
+        </div>
+        <div>
+            <p>2. A) Exerce pouvoir et influence<br>B) Donne son accord et est disposé à collaborer</p>
+            <input type="radio" name="q2" value="Dominant"> A
+            <input type="radio" name="q2" value="Coopératif"> B
+        </div>
+        <div>
+            <p>3. A) Organise et structure les affaires<br>B) Demande de l’aide plutôt que de prendre des initiatives</p>
+            <input type="radio" name="q3" value="Dominant"> A
+            <input type="radio" name="q3" value="Dépendant"> B
+        </div>
+        <div>
+            <p>4. A) Dit ce qu’il faut faire et ne pas faire<br>B) Se réfugie discrètement sur son île</p>
+            <input type="radio" name="q4" value="Opposant"> A
+            <input type="radio" name="q4" value="Soumis"> B
+        </div>
+        <div>
+            <p>5. A) Décide seul, donne ses instructions puis vérifie<br>B) Se sent vite froissé lorsque les choses ne vont pas comme il le veut</p>
+            <input type="radio" name="q5" value="Dominant"> A
+            <input type="radio" name="q5" value="Susceptible"> B
+        </div>
+        <div>
+            <p>6. A) Tire les ficelles<br>B) N’éprouve aucune peine à faire une remarque</p>
+            <input type="radio" name="q6" value="Dominant"> A
+            <input type="radio" name="q6" value="Susceptible"> B
+        </div>
+        <div>
+            <p>7. A) Attend de la docilité et de l’obéissance<br>B) Capable de se débrouiller sans avoir besoin des autres</p>
+            <input type="radio" name="q7" value="Dominant"> A
+            <input type="radio" name="q7" value="Responsable"> B
+        </div>
+        <div>
+            <p>8. A) Encourage, stimule et récompense<br>B) Donne son assentiment et participe à une proposition</p>
+            <input type="radio" name="q8" value="Responsable"> A
+            <input type="radio" name="q8" value="Coopératif"> B
+        </div>
+        <div>
+            <p>9. A) Émane sympathie, attention et compréhension<br>B) Recherche le conseil, le leadership et l’approbation de plus forts que lui</p>
+            <input type="radio" name="q9" value="Protecteur"> A
+            <input type="radio" name="q9" value="Dépendant"> B
+        </div>
+        <div>
+            <p>10. A) Joue un rôle de médiateur entre les individus<br>B) Plutôt réservé et silencieux</p>
+            <input type="radio" name="q10" value="Coopératif"> A
+            <input type="radio" name="q10" value="Soumis"> B
+        </div>
+        <div>
+            <p>11. A) Invite à se confier, à écouter, à affirmer<br>B) S’estime vite lésé dans une conversation</p>
+            <input type="radio" name="q11" value="Protecteur"> A
+            <input type="radio" name="q11" value="Susceptible"> B
+        </div>
+        <div>
+            <p>12. A) Veille à ce que personne ne soit rejeté du groupe<br>B) N’a pas peur de critiquer</p>
+            <input type="radio" name="q12" value="Responsable"> A
+            <input type="radio" name="q12" value="Opposant"> B
+        </div>
+        <!-- Ajout des questions 14 à 23 -->
+        <div>
+            <p>13. A) Aime se conduire de façon paternaliste et protectrice<br>B) Sûr de lui, quel que soit l’avis des autres</p>
+            <input type="radio" name="q13" value="Protecteur"> A
+            <input type="radio" name="q13" value="Responsable"> B
+        </div>
+        <div>
+            <p>14. A) Participe avec plaisir à une initiative<br>B) Très méticuleux dans l’exécution d’une mission</p>
+            <input type="radio" name="q14" value="Responsable"> A
+            <input type="radio" name="q14" value="Coopératif"> B
+        </div>
+        <div>
+            <p>15. A) Préfère les compromis aux différences d’opinion<br>B) Plutôt timide et renfermé sur lui-même</p>
+            <input type="radio" name="q15" value="Coopératif"> A
+            <input type="radio" name="q15" value="Soumis"> B
+        </div>
+        <div>
+            <p>16. A) Attache de l’importance à l’harmonie et la continuité<br>B) Méfiant quant aux « bonnes intentions » d’autrui</p>
+            <input type="radio" name="q16" value="Protecteur"> A
+            <input type="radio" name="q16" value="Susceptible"> B
+        </div>
+        <div>
+            <p>17. A) S’adapte facilement aux règlements en usage<br>B) Devient agressif lorsque tout ne se passe pas comme il l’entend</p>
+            <input type="radio" name="q17" value="Coopératif"> A
+            <input type="radio" name="q17" value="Opposant"> B
+        </div>
+        <div>
+            <p>18. A) Souhaite se montrer aimable et soutient les initiatives<br>B) Suit sa propre voie et ne se laisse pas vite influencer</p>
+            <input type="radio" name="q18" value="Protecteur"> A
+            <input type="radio" name="q18" value="Opposant"> B
+        </div>
+        <div>
+            <p>19. A) Un collaborateur fidèle, acceptant les décisions<br>B) Se sous-estime vite</p>
+            <input type="radio" name="q19" value="Dépendant"> A
+            <input type="radio" name="q19" value="Soumis"> B
+        </div>
+        <div>
+            <p>20. A) Admire et respecte les puissants<br>B) Trouve difficile de lâcher les rênes</p>
+            <input type="radio" name="q20" value="Dépendant"> A
+            <input type="radio" name="q20" value="Dominant"> B
+        </div>
+        <div>
+            <p>21. A) Est dépendant de directives<br>B) Ne ménage pas ses critiques</p>
+            <input type="radio" name="q21" value="Dépendant"> A
+            <input type="radio" name="q21" value="Susceptible"> B
+        </div>
+        <div>
+            <p>22. A) Ne demande pas mieux qu’on lui dise ce qu’il doit faire<br>B) Se positionne en hauteur de par son expertise</p>
+            <input type="radio" name="q22" value="Soumis"> A
+            <input type="radio" name="q22" value="Dominant"> B
+        </div>
+        <div>
+            <p>23. A) S’excuse des erreurs qu’il commet<br>B) Se sent vite exploité, ce qui l’amène à être mécontent</p>
+            <input type="radio" name="q23" value="Soumis"> A
+            <input type="radio" name="q23" value="Susceptible"> B
+        </div>
+
+        <button type="button" onclick="calculateScore()">Calculer le Score</button>
+        <button type="button" id="downloadPdfButton" style="display: none;" onclick="downloadPDF()">Télécharger en PDF</button>
+    </form>
+
+    <div id="result">
+        <h3>Résultat</h3>
+        <p id="scoreOutput">Score non calculé</p>
+        <canvas id="learyRadarChart" width="400" height="400"></canvas>
+    </div>
+
+    <script>
+        function calculateScore() {
+            let scores = {
+                'Dominant-Coopératif': 0,
+                'Responsable': 0,
+                'Coopératif': 0,
+                'Dépendant': 0,
+                'Opposant': 0,
+                'Soumis': 0,
+                'Susceptible': 0,
+                'Dominant': 0
+            };
+
+            const formElements = document.getElementById("learyForm").elements;
+            for (let element of formElements) {
+                if (element.type === "radio" && element.checked) {
+                    scores[element.value] += 1;
+                }
+            }
+
+            document.getElementById("scoreOutput").innerText =
+                `Scores par catégories: ${JSON.stringify(scores)}`;
+
+            createRadarChart(scores);
+            document.getElementById("downloadPdfButton").style.display = "inline"; // Afficher le bouton de téléchargement
+        }
+
+        function createRadarChart(scores) {
+            const ctx = document.getElementById('learyRadarChart').getContext('2d');
+            if (window.learyRadarChart && window.learyRadarChart instanceof Chart) {
+                window.learyRadarChart.destroy();
+            }
+            window.learyRadarChart = new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: Object.keys(scores),
+                    datasets: [{
+                        label: 'Scores par Catégories',
+                        data: Object.values(scores),
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 2,
+                        pointBackgroundColor: 'rgba(54, 162, 235, 1)'
+                    }]
+                },
+                options: {
+                    scales: {
+                        r: {
+                            beginAtZero: true,
+                            suggestedMax: 5
+                        }
+                    }
+                }
+            });
+        }
+
+        // Fonction pour télécharger le résultat sous forme de PDF
+        function downloadPDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            // Récupérer le contenu texte du résultat
+            const resultText = document.getElementById("scoreOutput").innerText;
+
+            // Ajouter le titre et les résultats au PDF
+            doc.setFontSize(16);
+            doc.text("Résultats du Questionnaire de Leary", 10, 10);
+            doc.setFontSize(12);
+            doc.text(resultText, 10, 20);
+
+            // Ajouter le graphique en tant qu'image
+            const canvas = document.getElementById("learyRadarChart");
+            const imgData = canvas.toDataURL("image/png");
+            doc.addImage(imgData, 'PNG', 10, 30, 180, 160); // Ajuster la taille de l'image selon vos besoins
+
+            // Télécharger le fichier PDF
+            doc.save("resultats_questionnaire_leary.pdf");
+        }
+    </script>
+</body>
+</html>
